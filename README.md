@@ -17,4 +17,4 @@ Each model offers two learning procedures:
 
 1. Single Stochastic Gradient Descent - where learning is performed by shuffling the order of the training instances each learning epoch.
 
-2. Dual Stochastic Gradient Descent - where both the order of the training instances and the feature indices are shuffled eahc learning epoch.
+2. Dual Stochastic Gradient Descent - where both the order of the training instances and the feature indices are shuffled each learning epoch.
