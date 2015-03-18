@@ -53,7 +53,6 @@ class SingleGaussianChain():
         self.learning_mode = learning_mode
         self.target_class = target_class
 
-
     def fit(self, X, y):
         """Fit Gaussian Chain classifier according to X, y
 
@@ -157,7 +156,7 @@ class SingleGaussianChain():
 
 
     def prime(self, X, y):
-        print "Priming Gaussians"
+        # print "Priming Gaussians"
 
         # For each attribute in X, determine the maximum likelihood mean and variance
         # Single case so only consider classes of one label - specified by the target class in the constructor
@@ -167,9 +166,10 @@ class SingleGaussianChain():
 
         # Prime the threads
         self.exitFlag = 0
-        threadList = range(0, X.shape[0])
+        max_thread_count = 50
+        threadList = range(0, max_thread_count)
         self.queueLock = threading.Lock()
-        self.workQueue = Queue.Queue(X.shape[0])
+        self.workQueue = Queue.Queue(X.shape[1])
         self.computedQueue = {}
         self.threads = []
 
@@ -248,7 +248,7 @@ class SingleGaussianChain():
         C : array-like, shape = [n_samples]
             Returns the probability of the sample for the target class
         """
-        print "Applying Gaussians to induce probabilities"
+        # print "Applying Gaussians to induce probabilities"
 
         # Get all churn probs
         churn_probs = []
@@ -286,6 +286,11 @@ class SingleGaussianChain():
                 # Take the joint probability calculation
                 churn_prob *= b_gaussian_prob
         return churn_prob
+
+    def get_params(self, deep=True):
+        # suppose this estimator has parameters "alpha" and "recursive"
+        return {"rho": self.rho, "alpha": self.alpha, "lambdaA": self.lambdaA, "eta": self.eta,
+                "learning_mode": self.learning_mode, "target_class": self.target_class}
 
 class DoubleGaussianChain():
 
@@ -421,9 +426,10 @@ class DoubleGaussianChain():
 
         # Prime the threads
         self.exitFlag = 0
-        threadList = range(0, X.shape[1])
+        max_thread_count = 50
+        threadList = range(0, max_thread_count)
         self.queueLock = threading.Lock()
-        self.workQueue = Queue.Queue(X.shape[0])
+        self.workQueue = Queue.Queue(X.shape[1])
         self.computedQueue = {}
         self.threads = []
 
